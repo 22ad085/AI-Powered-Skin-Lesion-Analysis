@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Result - AI Skin Lesion Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container result-page">
+    <header class="header">
+        <h1 class="title"><i class="fas fa-microscope"></i> AI-Powered Skin Lesion Analysis</h1>
+        <p class="subtitle">Here are the results of your uploaded lesion image analysis...</p>
+    </header>
+
+    <div class="result-card">
+        <!-- Image Display -->
+        <div class="image-analysis-section">
+            <h2><i class="fas fa-image"></i> Uploaded Image</h2>
+            <div class="image-display-wrapper">
+                <img src="{{ uploaded_image_path }}" alt="Uploaded Image" class="original-image">
+            </div>
+        </div>
+
+        <!-- Prediction Details -->
+        <div class="prediction-details">
+            <h2><i class="fas fa-notes-medical"></i> Prediction Summary</h2>
+            <div class="prediction-summary">
+                <div class="result-text {% if result == 'Malignant' %}malignant{% else %}benign{% endif %}">
+                    {{ result }}
+                </div>
+                <p class="confidence-score">
+                    Confidence: <span class="score-value">{{ (confidence*100)|round(2) }}%</span>
+                </p>
+                <p class="confidence-score">
+                    Risk Level: <span class="score-value">{{ risk }}</span>
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="{{ url_for('index') }}" class="back-button">
+                    <i class="fas fa-upload"></i> Upload Another Image
+                </a>
+                <a href="{{ url_for('download_report', filename=filename) }}" class="download-report-button">
+                    <i class="fas fa-download"></i> Download Report
+                </a>
+                <a href="{{ url_for('download_database') }}" class="download-report-button">
+                    <i class="fas fa-file-excel"></i> Download Database
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer-section">
+        <i class="fas fa-exclamation-triangle"></i>
+                    This tool provides AI-based skin lesion analysis for educational purposes only.
+    </div>
+
+    <footer class="footer">
+        &copy; 2025 AI Skin Cancer Detection
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Skin Cancer Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container upload-page">
+        <header class="header">
+            <h1 class="title"><i class="fas fa-microscope"></i> AI-Powered Skin Lesion Analysis</h1>
+            <p class="subtitle">Upload dermatoscopic image for AI Skin Lesion Analysis...</p>
+        </header>
+
+        <form id="predictionForm" action="/upload" method="post" enctype="multipart/form-data">
+            <input type="text" name="username" placeholder="Enter your name" required>
+            <div class="upload-area" id="upload-area">
+                <input type="file" name="file" id="file-upload" accept="image/*" required>
+                <label for="file-upload" class="upload-button">
+                    <i class="fas fa-cloud-upload-alt"></i> Choose Image
+                </label>
+                <p class="file-name" id="selected-file-name"></p>
+            </div>
+
+            <button type="submit" class="animated-button" id="predict-button">
+                <span id="button-text">Analyze</span>
+                <div class="spinner" id="spinner"></div>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const fileUpload = document.getElementById('file-upload');
+        const selectedFileName = document.getElementById('selected-file-name');
+        const predictButton = document.getElementById('predict-button');
+        const buttonText = document.getElementById('button-text');
+        const spinner = document.getElementById('spinner');
+        const predictionForm = document.getElementById('predictionForm');
+        const uploadArea = document.getElementById('upload-area');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight drop area
+        ['dragenter','dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.add('highlight'), false);
+        });
+        ['dragleave','drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('highlight'), false);
+        });
+
+        // Handle dropped files
+        uploadArea.addEventListener('drop', handleDrop, false);
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length > 0) {
+                fileUpload.files = files; // Update input for validation
+                selectedFileName.textContent = files[0].name;
+
+                showSuccessTick();
+            }
+        }
+
+        // Handle manual file selection
+        fileUpload.addEventListener('change', function () {
+            if (fileUpload.files.length > 0) {
+                selectedFileName.textContent = fileUpload.files[0].name;
+                showSuccessTick();
+            }
+        });
+
+        function showSuccessTick() {
+            let success = document.createElement('div');
+            success.classList.add('upload-success');
+            success.innerHTML = "&#10003; Successfully Uploaded";
+            if (!uploadArea.querySelector('.upload-success')) {
+                uploadArea.appendChild(success);
+                success.style.display = 'block';
+            }
+        }
+
+        // Form submission animation
+        predictionForm.addEventListener('submit', function() {
+            predictButton.disabled = true;
+            buttonText.textContent = 'Analyzing...';
+            spinner.style.display = 'inline-block';
+        });
+    </script>
+</body>
+</html>
