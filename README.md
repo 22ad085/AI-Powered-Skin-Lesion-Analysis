@@ -37,10 +37,10 @@ The images were preprocessed and used for training the Sequential Keras model to
 ![Upload Page](upload.png)  
 
 ### Prediction Result  
-![Prediction Result](result.png)  
+![Prediction Result](prediction-melanoma.png)  
 
 ### Generated Report  
-![Generated Report](report.png)  
+![Generated Report](report.pdf)  
 
 ## Setup Instructions  
 1. Clone the repository:  
