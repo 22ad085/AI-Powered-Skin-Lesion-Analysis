@@ -51,11 +51,7 @@ The images were preprocessed and used for training the Sequential Keras model to
     ```bash
     cd AI-Powered-Skin-Lesion-Analysis-
     ```
-3. Install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-4. Run the Flask application:
+3. Run the Flask application:
     ```bash
     python app.py
     ```
